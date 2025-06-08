@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Finance Tracker</title>
+
+  <!-- Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Open+Sans:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <main class="main-content">
+    <!-- Hero / Title -->
+    <section class="hero">
+      <h1>Finance Tracker</h1>
+      <p class="tagline">Wealth management tool</p>
+    </section>
+
+<!-- Financial Overview -->
+<section class="overview">
+  <h2>Financial Overview</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>Net Worth</h3>
+      <p class="value" id="net-worth-value">$0</p>
+      <p class="delta" id="net-worth-delta">+0% from last month</p>
+    </div>
+    <div class="card">
+      <h3>Monthly Expenses</h3>
+      <p class="value" id="monthly-expenses-value">$0</p>
+      <p class="delta" id="monthly-expenses-delta">Last updated –</p>
+    </div>
+  </div>
+</section>
+
+    <!-- Transaction Entry -->
+<section class="transaction-entry">
+  <h2>Record a Transaction</h2>
+  <form id="expense-form" class="entry-form">
+    <div class="form-row">
+      <div class="form-group amount-group">
+        <label for="amount">Amount</label>
+        <div class="input-prefix">
+          <span class="prefix">$</span>
+          <input type="number" id="amount" placeholder="0.00" required />
+        </div>
+      </div>
+      <div class="form-group type-group">
+        <label>Type</label>
+        <div class="toggle-group">
+          <button type="button" class="toggle-btn active" data-type="expense">Expense</button>
+          <button type="button" class="toggle-btn" data-type="income">Income</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="category">Category</label>
+        <select id="category" required></select>
+      </div>
+      <!-- You can omit date-select if you just want today by default -->
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" placeholder="Enter details" rows="2" required></textarea>
+    </div>
+
+    <button type="submit" class="btn-record">Record Transaction</button>
+  </form>
+  <div id="message" class="form-message"></div>
+</section>
+
+    <!-- Recent Transactions -->
+    <section class="transactions">
+      <h2>Recent Transactions</h2>
+      <ul id="expense-list" class="expense-list"></ul>
+      <button class="btn-view-all">View All Transactions</button>
+    </section>
+
+    <!-- Upcoming Financial Events -->
+    <section class="events">
+      <h2>Upcoming Financial Events</h2>
+      <!-- Event entry form -->
+      <form id="event-form" class="event-form">
+        <input type="text" id="event-name" placeholder="Event name" required />
+        <input type="date" id="event-date" required />
+        <input type="number" id="event-amount" placeholder="Amount" required />
+        <button type="submit" class="btn-add-event">Add Event</button>
+      </form>
+
+      <!-- Message area -->
+      <div id="event-message" class="form-message"></div>
+
+      <!-- Event list -->
+      <ul id="event-list" class="event-list"></ul>
+    </section>
+  </main>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

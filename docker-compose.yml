@@ -1,0 +1,78 @@
+
+services:
+  database:
+    build: ./database
+    container_name: finance-db-dev
+    restart: unless-stopped
+    
+    environment:
+      POSTGRES_USER: finance_user
+      POSTGRES_PASSWORD: finance_pass
+      POSTGRES_DB: finance_db
+    
+    volumes:
+      - db_data_dev:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    
+    ports:
+      - "5432:5432"  # Expose for development access
+    
+    networks:
+      - dev-network
+    
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U finance_user -d finance_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    container_name: finance-backend-dev
+    restart: unless-stopped
+    
+    environment:
+      - NODE_ENV=development
+      - PORT=5000
+      - DB_HOST=database
+      - DB_USER=finance_user
+      - DB_PASSWORD=finance_pass
+      - DB_NAME=finance_db
+    
+    ports:
+      - "5000:5000"  # Expose for development access
+    
+    volumes:
+      - ./backend:/app  # Bind mount for hot reload
+      - /app/node_modules
+    
+    networks:
+      - dev-network
+    
+    depends_on:
+      database:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    container_name: finance-frontend-dev
+    restart: unless-stopped
+    
+    ports:
+      - "8080:80"
+    
+    volumes:
+      - ./frontend:/usr/share/nginx/html  # Bind mount for development
+    
+    networks:
+      - dev-network
+    
+    depends_on:
+      - backend
+
+volumes:
+  db_data_dev:
+
+networks:
+  dev-network:
+    driver: bridge
